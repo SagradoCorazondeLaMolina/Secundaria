@@ -2,7 +2,7 @@
 const STUDENTS = PHOTOS.map((p,i)=>({index:i,name:p.name || ('Estudiante '+String(i+1).padStart(2,'0')),photo:p.file,title:p.title||''}));
 
 const stage=document.getElementById('stage');
-if(stage){
+if(stage && Array.isArray(PHOTOS) && PHOTOS.length){
   stage.innerHTML='';
   let current=0;
   const entries=PHOTOS.map((p,i)=>{
@@ -11,17 +11,56 @@ if(stage){
     const img=document.createElement('img');
     img.src=p.file;
     img.alt=p.name ? ('Retrato de '+p.name) : ('Fotografía de graduación '+(i+1));
-    img.loading=i<2?'eager':'lazy';
+    img.loading='eager'; // En carruseles ocultos el lazy-load falla en ciertos móviles.
+    img.decoding='async';
+    if(i===0) img.fetchPriority='high';
+    img.onerror=()=>{fig.dataset.failed='1';if(fig.classList.contains('active')) next();};
     fig.appendChild(img);
     stage.appendChild(fig);
     return fig;
   });
   const counter=document.getElementById('counter');
   const setCounter=()=>{ if(counter) counter.textContent=String(current+1).padStart(2,'0')+' / '+entries.length; };
+  function next(){
+    const previous=current;
+    let target=current;
+    for(let attempts=0;attempts<entries.length;attempts++){
+      target=(target+1)%entries.length;
+      if(entries[target].dataset.failed!=='1') break;
+    }
+    if(target===previous || entries[target].dataset.failed==='1') return;
+    entries[previous].classList.remove('active');
+    current=target;
+    entries[current].classList.add('active');
+    setCounter();
+  }
   setCounter();
-  const next=()=>{ entries[current].classList.remove('active'); current=(current+1)%entries.length; entries[current].classList.add('active'); setCounter(); };
-  let timer=setInterval(next,3600);
-  document.addEventListener('visibilitychange',()=>{ clearInterval(timer); if(!document.hidden) timer=setInterval(next,3600); });
+  let timer=setInterval(next,3900);
+  document.addEventListener('visibilitychange',()=>{ clearInterval(timer); if(!document.hidden) timer=setInterval(next,3900); });
+}
+
+
+// Fullscreen requiere un gesto explícito; iOS Safari no permite fullscreen de páginas web normales.
+const fsButton=document.getElementById('fullscreen');
+const fsModal=document.getElementById('fullscreen-message');
+const fsClose=document.getElementById('fullscreen-close');
+function fullscreenNotice(message){
+  if(!fsModal) return;
+  const help=document.getElementById('fullscreen-help');
+  if(help) help.textContent=message;
+  fsModal.classList.add('show'); fsModal.setAttribute('aria-hidden','false');
+}
+if(fsClose) fsClose.onclick=()=>{fsModal.classList.remove('show');fsModal.setAttribute('aria-hidden','true');};
+if(fsButton){
+  fsButton.onclick=async()=>{
+    if(document.fullscreenElement){try{await document.exitFullscreen();}catch(e){}return;}
+    if(document.documentElement.requestFullscreen){
+      try { await document.documentElement.requestFullscreen({navigationUI:'hide'}); return; }
+      catch(e) { /* Puede estar restringido por navegador o iframe. */ }
+    }
+    fullscreenNotice('En iPhone o Safari, toca Compartir y elige “Agregar a pantalla de inicio”; luego abre la invitación desde su ícono. En otros navegadores usa el menú Pantalla completa.');
+  };
+  document.addEventListener('fullscreenchange',()=>{fsButton.textContent=document.fullscreenElement?'⤢':'⛶';fsButton.setAttribute('aria-label',document.fullscreenElement?'Salir de pantalla completa':'Activar pantalla completa');});
 }
 
 const audio=document.getElementById('audio');
