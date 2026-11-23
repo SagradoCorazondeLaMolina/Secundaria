@@ -1,0 +1,21 @@
+{
+  "name": "Graduación 6.º de Primaria 2026 · SCM",
+  "short_name": "Graduación SCM",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#050f29",
+  "theme_color": "#050f29",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
