@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#050f29">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="manifest.webmanifest">
   <meta name="description" content="Graduación de 6.º grado de Primaria · Colegio Sagrado Corazón de La Molina · Promoción 2026">
   <link rel="stylesheet" href="assets/estilos.css">
   <title>Graduación 6.º de Primaria 2026 | SCM</title>
@@ -13,6 +17,7 @@
     <a href="index.html">← Volver a portada</a>
     <img src="assets/logo-graduacion.png" alt="SCM">
     <a href="#galeria">Galería ↓</a>
+    <button class="fullscreen-trigger" id="fullscreen" type="button" aria-label="Activar pantalla completa" title="Pantalla completa">⛶</button>
   </nav>
 
   <main>
@@ -121,6 +126,14 @@
 
   <button id="floatingMusic" class="floating-music" type="button" aria-pressed="false">♫ Música</button>
   <audio id="audio" loop preload="none" src="assets/musica-graduacion.mp3"></audio>
+  <div class="fullscreen-message" id="fullscreen-message" role="dialog" aria-modal="true" aria-label="Pantalla completa" aria-hidden="true">
+    <div class="fullscreen-panel">
+      <div style="font-size:36px">✦</div>
+      <h2>Disfruta la invitación a pantalla completa</h2>
+      <p id="fullscreen-help">Para una experiencia más inmersiva, utiliza el modo de pantalla completa de tu navegador.</p>
+      <button id="fullscreen-close" type="button">Entendido</button>
+    </div>
+  </div>
   <script src="assets/datos.js"></script>
   <script src="assets/sitio.js"></script>
 </body>
