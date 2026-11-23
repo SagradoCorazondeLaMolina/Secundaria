@@ -1,0 +1,8 @@
+SCM | GRADUACIÓN 6.º DE PRIMARIA · EDICIÓN AZUL NOCHE
+
+Sube el CONTENIDO de esta carpeta a la raíz del hosting. index.html es la portada. invitacion.html es la invitación interior. Conserva la carpeta assets íntegra (28 fotos, logo, audio, CSS y JS).
+
+Portada: fotos completas, fondo azul noche, marco ornamental clásico y botón circular de música abajo a la derecha. Sin dirección en la portada.
+Interior: primera pantalla rediseñada, ceremonia 5 de diciembre de 2026, 5:00 p. m., Jirón El Bucaré 351, La Molina, cuenta regresiva, lista de graduados y galería.
+
+La música se activa tras tocar el botón: los navegadores móviles no permiten generalmente reproducir audio automáticamente.
